@@ -135,6 +135,7 @@ public class FileWCCounter {
                     if(wcc.size()>1){
                         System.out.println(" "+total2);
                     }
+                    break;
                     default:
                         String[] modifiedList3 = new String[args.length-1];
                         transferWCFiles(args,modifiedList3);
