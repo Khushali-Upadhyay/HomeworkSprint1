@@ -182,7 +182,7 @@ public class FileWCCounter {
         public static void transferWCFiles(String[] args,String[] modifiedList)
         {
             for(int i=1;i<args.length;i++){
-                 modifiedList[i] = args[i];
+                 modifiedList[i-1] = args[i];
             }
         }
 
