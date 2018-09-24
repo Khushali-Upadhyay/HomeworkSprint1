@@ -32,13 +32,9 @@ public class FileWCCounter {
             return wordCounter;
         }
 
-        public void setWordCounter() {
-            for (int i = 0; i < getContent().length(); i++) {
-                char c1 = getContent().charAt(i);
-                if (c1 == ' ') {
-                    wordCounter++;
-                }
-            }
+        public void setWordCounter(){
+            String[] words = getContent().trim().split("\\s+");
+            this.wordCounter = words.length;
         }
 
         public long getCharCounter() {
