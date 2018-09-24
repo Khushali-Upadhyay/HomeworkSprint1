@@ -10,7 +10,7 @@ public class FileWCCounter {
     public static class WCFile {
         private int wordCounter;
         private int lineCounter;
-        private long charCounter;
+        private int charCounter;
         private String Content;
         private String fileName;
 
