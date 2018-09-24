@@ -1,3 +1,12 @@
+//Name:- Khushali Mukeshbhai Upadhyay
+//Date:-23 rd September 2018
+//Homework Sprint 1
+//Taken help from Jenzel Arevalo
+
+
+
+
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -132,6 +141,7 @@ public class FileWCCounter {
                         System.out.println(" "+total2);
                     }
                     break;
+
                     default:
                         String[] modifiedList3 = new String[args.length-1];
                         transferWCFiles(args,modifiedList3);
@@ -151,7 +161,6 @@ public class FileWCCounter {
                             System.out.println(" "+ltotal+" "+wtotal+" "+ctotal);
                         }
 
-                        break;
             }
         }
         else{
