@@ -15,6 +15,10 @@ import java.util.List;
 
 
 public class FileWCCounter {
+     static final String PRINT_ALL = "-a";
+     static final String LINE_COUNT = "-l";
+     static final String WORD_COUNT = "-w";
+     static final String CHAR_COUNT = "-c";
 
     public static class WCFile {
         private int wordCounter;
@@ -22,6 +26,7 @@ public class FileWCCounter {
         private int charCounter;
         private String Content;
         private String fileName;
+
 
         public int getLineCounter() {
             return lineCounter;
@@ -34,6 +39,8 @@ public class FileWCCounter {
                     lineCounter++;
                 }
             }
+            if(lineCounter == 0)
+                ++lineCounter;
         }
 
         public int getWordCounter()
@@ -92,81 +99,71 @@ public class FileWCCounter {
 
         if (args.length > 0) {
             String firstElement = args[0];
-            switch (firstElement){
+            if (isSpecifier(firstElement)) {
+                String[] modifiedList = new String[args.length-1];
+                transferWCFiles(args, modifiedList);
+                processData(modifiedList,wcc);
+                printResults(firstElement,wcc);
+            } else {
+                printInstructions();
+            }
+        }
+        else {
+            printInstructions();
+        }
+    }
+    public static void printResults(String firstElement,ArrayList<WCFile> wcc)
+    {
+        long totalLineCount, totalWordCount, totalCharCount;
+        totalLineCount =  totalWordCount =  totalCharCount = 0;
+        if (firstElement.equalsIgnoreCase(LINE_COUNT)){
+            for(int i=0;i<wcc.size();i++){
+                totalLineCount+= wcc.get(i).getLineCounter();
+                System.out.println(wcc.get(i).getLineCounter()+"\t" + wcc.get(i).getFileName());
+            }
+            if(wcc.size()>1) {
+                System.out.println(totalLineCount+"\ttotal");
+            }
+        }
+        else if (firstElement.equalsIgnoreCase(WORD_COUNT)) {
+            for (int i = 0; i < wcc.size(); i++) {
+                totalWordCount += wcc.get(i).getWordCounter();
+                System.out.println(wcc.get(i).getWordCounter() + "\t" + wcc.get(i).getFileName());
+            }
+            if (wcc.size() > 1) {
+                System.out.println(totalWordCount + "\ttotal");
+            }
+        }
 
-                case "-l" :
-                    String[] modifiedList = new String[args.length-1];
-                    transferWCFiles(args,modifiedList);
-                    processData(modifiedList,wcc);
-                    int total = 0;
-                    for (int i=0;i<wcc.size();i++)
-                    {
-                        total+=wcc.get(i).getLineCounter();
-                        System.out.println(" "+wcc.get(i).getLineCounter());
-
-                    }
-                    if(wcc.size()>1){
-                        System.out.println(" "+total);
-                    }
-                    break;
-
-                case "-w":
-                    String[] modifiedList1 = new String[args.length-1];
-                    transferWCFiles(args,modifiedList1);
-                    processData(modifiedList1,wcc);
-                    int total1 = 0;
-                    for (int i=0;i<wcc.size();i++)
-                    {
-                        total1+=wcc.get(i).getWordCounter();
-                        System.out.println(" "+wcc.get(i).getWordCounter());
-
-                    }
-                    if(wcc.size()>1){
-                        System.out.println(" "+total1);
-                    }
-                    break;
-
-                case "-c":
-                    String[] modifiedList2 = new String[args.length-1];
-                    transferWCFiles(args,modifiedList2);
-                    processData(modifiedList2,wcc);
-                    int total2 = 0;
-                    for (int i=0;i<wcc.size();i++)
-                    {
-                        total2+=wcc.get(i).getCharCounter();
-                        System.out.println(" "+wcc.get(i).getCharCounter());
-
-                    }
-                    if(wcc.size()>1){
-                        System.out.println(" "+total2);
-                    }
-                    break;
-
-                    default:
-                        String[] modifiedList3 = new String[args.length-1];
-                        transferWCFiles(args,modifiedList3);
-                        processData(modifiedList3,wcc);
-                        int ltotal = 0;
-                        int wtotal = 0;
-                        int ctotal = 0;
-                        for (int i=0;i<wcc.size();i++)
-                        {
-                            ltotal+=wcc.get(i).getLineCounter();
-                            wtotal+=wcc.get(i).getWordCounter();
-                            ctotal+=wcc.get(i).getCharCounter();
-                            System.out.println(" "+wcc.get(i).getLineCounter()+" "+wcc.get(i).getWordCounter()+" "+wcc.get(i).getCharCounter());
-
-                        }
-                        if(wcc.size()>1){
-                            System.out.println(" "+ltotal+" "+wtotal+" "+ctotal);
-                        }
-
+        else if (firstElement.equalsIgnoreCase(CHAR_COUNT)) {
+            for (int i = 0; i < wcc.size(); i++) {
+                totalCharCount += wcc.get(i).getCharCounter();
+                System.out.println(wcc.get(i).getCharCounter() + "\t" + wcc.get(i).getFileName());
+            }
+            if (wcc.size() > 1) {
+                System.out.println(totalCharCount + "\ttotal");
             }
         }
         else{
-                printInstructions();
+            for(int i=0;i<wcc.size();i++)
+            {
+                totalLineCount+= wcc.get(i).getLineCounter();
+                totalWordCount += wcc.get(i).getWordCounter();
+                totalCharCount += wcc.get(i).getCharCounter();
+                System.out.println(wcc.get(i).getLineCounter()+"\t"+wcc.get(i).getWordCounter()+"\t"+wcc.get(i).getCharCounter() + "\t" + wcc.get(i).getFileName());
+
+
+            }
         }
 
+    }
+    public static Boolean isSpecifier(String firstElement)
+    {
+        if (firstElement.equalsIgnoreCase(LINE_COUNT) || firstElement.equalsIgnoreCase(WORD_COUNT) || firstElement.equalsIgnoreCase(CHAR_COUNT))
+            return true;
+        else {
+            return false;
+        }
     }
 
         public static void printInstructions()
@@ -177,6 +174,7 @@ public class FileWCCounter {
             System.out.println("wc -c <filename> will print the character count");
             System.out.println("wc -w <filename> will print the word count");
             System.out.println("wc <filename> will print all of the above");
+
 
         }
 
