@@ -1,11 +1,11 @@
 //Name:- Khushali Mukeshbhai Upadhyay
 //Date:-23 rd September 2018
 //Homework Sprint 1
-//Taken help from Jenzel Arevalo
+//Taken help from Jenzel A
 
 
-
-
+import picocli.CommandLine;
+import picocli.CommandLine.Option;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -93,6 +93,13 @@ public class FileWCCounter {
             setWordCounter();
             setCharCounter();
         }
+    }
+
+    public class SRCFile extends WCFile
+    {
+        private int sourcelineCounter;
+        private int commentlineCounter;
+
     }
     public static void main(String[] args) throws IOException {
         ArrayList<WCFile> wcc = new ArrayList<WCFile>();
